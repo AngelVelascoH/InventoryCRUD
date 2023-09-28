@@ -15,7 +15,7 @@ public class Location {
     @Column(name = "address")
     private String address;
     @Column(name = "phoneNumber")
-    private int phoneNumber;
+    private long phoneNumber;
 
     @OneToOne(mappedBy = "location")
     private Item theItem;
@@ -23,7 +23,7 @@ public class Location {
 
     public Location(){
     }
-    public Location(int locationId, String state, String address, int phoneNumber) {
+    public Location(int locationId, String state, String address, long phoneNumber) {
         this.locationId = locationId;
         this.state = state;
         this.address = address;
@@ -46,19 +46,19 @@ public class Location {
         this.state = state;
     }
 
-    public String getAdress() {
+    public String getAddress() {
         return address;
     }
 
-    public void setAdress(String adress) {
-        this.address = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public int getPhoneNumber() {
+    public long getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(long phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -68,7 +68,7 @@ public class Location {
         return "location{" +
                 "locationId=" + locationId +
                 ", state='" + state + '\'' +
-                ", adress='" + address + '\'' +
+                ", address='" + address + '\'' +
                 ", phoneNumber=" + phoneNumber +
                 '}';
     }
