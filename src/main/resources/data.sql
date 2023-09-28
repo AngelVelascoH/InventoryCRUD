@@ -7,8 +7,8 @@ INSERT INTO location (location_id, address, phone_number, state) VALUES (4, 'Pas
 INSERT INTO location (location_id, address, phone_number, state) VALUES (5, 'Calle Morelos #101', 5576543210, 'Puebla');
 
 -- Registros en la tabla "item"
-INSERT INTO item (item_id, description, item_name, location_id) VALUES (1, 'Laptop de 16 pulgadas con procesador Intel Core i7', 'Laptop Dell', 1);
-INSERT INTO item (item_id, description, item_name, location_id) VALUES (2, 'Teléfono inteligente de última generación', 'Smartphone Samsung', 2);
-INSERT INTO item (item_id, description, item_name, location_id) VALUES (3, 'Tableta Android con pantalla HD', 'Tablet ASUS', 3);
-INSERT INTO item (item_id, description, item_name, location_id) VALUES (4, 'Impresora láser en blanco y negro', 'Impresora HP', 4);
-INSERT INTO item (item_id, description, item_name, location_id) VALUES (5, 'Cámara digital DSLR con lentes intercambiables', 'Cámara Canon',5);
+INSERT INTO item (item_id, description, item_name, location_id) VALUES (101, 'Laptop de 16 pulgadas con procesador Intel Core i7', 'Laptop Dell', 1);
+INSERT INTO item (item_id, description, item_name, location_id) VALUES (102, 'Teléfono inteligente de última generación', 'Smartphone Samsung', 2);
+INSERT INTO item (item_id, description, item_name, location_id) VALUES (103, 'Tableta Android con pantalla HD', 'Tablet ASUS', 3);
+INSERT INTO item (item_id, description, item_name, location_id) VALUES (104, 'Impresora láser en blanco y negro', 'Impresora HP', 4);
+INSERT INTO item (item_id, description, item_name, location_id) VALUES (105, 'Cámara digital DSLR con lentes intercambiables', 'Cámara Canon',5);

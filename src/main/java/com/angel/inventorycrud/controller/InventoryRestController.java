@@ -2,11 +2,15 @@ package com.angel.inventorycrud.controller;
 
 import com.angel.inventorycrud.entity.Item;
 import com.angel.inventorycrud.service.InventoryServiceImpl;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @RestController
 public class InventoryRestController {
@@ -19,14 +23,27 @@ public class InventoryRestController {
         this.inventoryService = inventoryService;
     }
 
+    @GetMapping("/items/{id}")
+    public ResponseEntity<Item> displayItemById(@PathVariable int id){
+        ResponseEntity<Item> dbItem = inventoryService.find(id);
+        return dbItem;
+    }
+
+
     @GetMapping("/items")
-    public String displayItems(){
-        return "Im working fine";
+    public ResponseEntity<List<Item>> displayItems(@RequestParam(name = "state",required = false) String state){
+         return inventoryService.findAll(state);
+
     }
     @PostMapping("/items")
     public Item addItem(@RequestBody Item theItem){
         Item dbItem = inventoryService.save(theItem);
         return dbItem;
+    }
+
+    @DeleteMapping("/items/{id}")
+    public void removeItem(@PathVariable int id){
+        inventoryService.remove(id);
     }
 
 
