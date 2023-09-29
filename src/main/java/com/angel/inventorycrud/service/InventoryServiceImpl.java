@@ -23,7 +23,7 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public ResponseEntity<List<Item>> findAll(String state) {
+    public List<Item> findAll(String state) {
         List<Item> results = inventoryDAO.findAll();
         if(state!=null){
             results=results.stream()
@@ -31,33 +31,28 @@ public class InventoryServiceImpl implements InventoryService {
                     .collect(Collectors.toList());
 
         }
-        if(results.isEmpty()){
-            return  ResponseEntity.notFound().build();
-        }
-        return new ResponseEntity<>(results, HttpStatus.OK);
+
+        return results;
     }
 
     @Override
-    public ResponseEntity<Item> find(int theId) {
+    public Item find(int theId) {
         Optional<Item> result = inventoryDAO.findById(theId);
+        return result.orElse(null);
 
-        return result.map(item -> {
-            // Si se encuentra el Item, se devuelve una respuesta con código 200 (OK) y el Item.
-            return new ResponseEntity<>(item, HttpStatus.OK);
-        }).orElseGet(() -> {
-            // Si no se encuentra el Item, se devuelve una respuesta con código 404 (Not Found).
-            return ResponseEntity.notFound().build();
-        });
     }
 
 
     @Override
     public Item save(Item theItem) {
         return inventoryDAO.save(theItem);
+
+
     }
 
     @Override
     public void remove(int theId) {
     inventoryDAO.deleteById(theId);
+
     }
 }

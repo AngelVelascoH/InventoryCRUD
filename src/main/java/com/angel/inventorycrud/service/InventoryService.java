@@ -6,8 +6,8 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 public interface InventoryService {
-    ResponseEntity<List<Item>> findAll(String state);
-    ResponseEntity<Item> find(int theId);
+    List<Item> findAll(String state);
+    Item find(int theId);
     Item save(Item theItem);
     void remove(int theId);
 
