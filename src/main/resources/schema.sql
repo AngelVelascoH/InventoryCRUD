@@ -4,14 +4,14 @@ create table item (
                       item_id integer not null,
                       location_id integer unique,
                       description varchar(255),
-                      item_name varchar(255),
+                      item_name varchar(255) not null,
                       primary key (item_id)
 );
 create table location (
                           location_id integer not null,
                           phone_number bigint,
                           address varchar(255),
-                          state varchar(255),
+                          state varchar(255) not null,
                           primary key (location_id)
 );
 alter table if exists item

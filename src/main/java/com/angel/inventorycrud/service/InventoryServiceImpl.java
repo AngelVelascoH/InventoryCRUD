@@ -45,6 +45,13 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public Item save(Item theItem) {
+
+        List<Item> items = inventoryDAO.findAll();
+        boolean isInList = items.stream().anyMatch(item -> item.getItemId() == theItem.getItemId());
+        if (isInList){
+            return null;
+        }
+
         return inventoryDAO.save(theItem);
 
 

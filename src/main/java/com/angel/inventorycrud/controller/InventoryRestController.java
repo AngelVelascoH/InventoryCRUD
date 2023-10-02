@@ -2,16 +2,11 @@ package com.angel.inventorycrud.controller;
 
 import com.angel.inventorycrud.entity.Item;
 import com.angel.inventorycrud.service.InventoryServiceImpl;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @RestController
 public class InventoryRestController {
@@ -44,13 +39,18 @@ public class InventoryRestController {
     }
     @PostMapping("/items")
     public ResponseEntity<Item> addItem(@RequestBody Item theItem){
+            try {
+                Item dbItem = inventoryService.save(theItem);
+                if (dbItem == null) {
+                    return new ResponseEntity<>(HttpStatus.CONFLICT);
 
-        Item dbItem = inventoryService.save(theItem);
-        if(dbItem==null){
-            return ResponseEntity.badRequest().build();
+                }
+                return new ResponseEntity<>(dbItem, HttpStatus.CREATED);
+            }
+            catch (RuntimeException ex){
+                return ResponseEntity.badRequest().build();
+            }
 
-        }
-        return new ResponseEntity<>(dbItem,HttpStatus.CREATED);
     }
 
     @DeleteMapping("/items/{id}")

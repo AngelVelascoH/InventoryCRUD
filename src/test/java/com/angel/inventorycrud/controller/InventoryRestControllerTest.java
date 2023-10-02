@@ -7,16 +7,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -34,10 +30,10 @@ class InventoryRestControllerTest {
         Assertions.assertEquals("Laptop",item.getItemName());
     }
     @Test
-    public void testFindMethodFail() {
+    public void testFindMethodFailNotFound() {
         when(inventoryDAO.findById(1)).thenReturn(Optional.of(new Item(1,"Laptop","Laptopt Dell",new Location(1,"Edomex","cto 8 jose de san martin",5515266354L))));
-        Item item = inventoryService.find(1);
-        Assertions.assertFalse(item.getItemName().equals("Monitor"));
+        Item item = inventoryService.find(2);
+        Assertions.assertNull(item);
     }
 
     @Test
@@ -53,19 +49,7 @@ class InventoryRestControllerTest {
         // Verificar que se recuperaron los elementos esperados.
         Assertions.assertEquals(2, items.size());
     }
-    @Test
-    public void testFindAllMethodFail() {
-        List<Item> itemList = Arrays.asList(
-                new Item(1,"Laptop","Laptop Dell",new Location(1,"Edomex","Cto 8 Jose de San Martin",5515266354L)),
-                new Item(2,"Monitor","Monitor Samsung",new Location(2,"CDMX","Blvd Adolfo Lopez Mateo Las Aguilas",5525667182L))
-        );
 
-        // Llamar al método findAll() del repositorio.
-        when(inventoryDAO.findAll()).thenReturn(itemList);
-        List<Item> items = inventoryService.findAll(null);
-        // Verificar que se recuperaron los elementos esperados.
-        Assertions.assertFalse( items.size()==3);
-    }
 
     @Test
     public void testFindAllMethodFilteredByStateSuccess() {
@@ -91,9 +75,37 @@ class InventoryRestControllerTest {
 
         // Llamar al método findAll() del repositorio.
         when(inventoryDAO.findAll()).thenReturn(itemList);
-        List<Item> items = inventoryService.findAll("CDMX");
+        List<Item> items = inventoryService.findAll("Puebla");
         // Verificar que se recuperaron los elementos esperados.
-        Assertions.assertFalse(1== items.size());
+        Assertions.assertTrue(items.isEmpty());
     }
+
+    @Test
+    public void testSaveMethodSuccess(){
+        Item item = new Item(1,"Laptop","Laptop Dell",new Location(1,"Edomex","Cto 8 Jose de San Martin",5515266354L));
+
+    when(inventoryDAO.save(item)).thenReturn(item);
+
+    Item savedItem = inventoryService.save(item);
+
+    Assertions.assertNotNull(savedItem);
+    Assertions.assertEquals(item, savedItem);
+    }
+
+    @Test
+    public void testSaveMethodFailConflict(){
+        List<Item> itemList = Arrays.asList(
+                new Item(1,"Laptop","Laptop Dell",new Location(1,"Edomex","Cto 8 Jose de San Martin",5515266354L)),
+                new Item(2,"Monitor","Monitor Samsung",new Location(2,"CDMX","Blvd Adolfo Lopez Mateo Las Aguilas",5525667182L)),
+                new Item(2,"Teclado","Teclado Razer",new Location(3,"CDMX","Blvd Adolfo Lopez Mateo Las Aguilas",5525667182L))
+        );
+
+    when(inventoryDAO.findAll()).thenReturn(itemList);
+    Item item = new Item(1,"Laptop","Laptop Dell",new Location(1,"Edomex","Cto 8 Jose de San Martin",5515266354L));
+    Item savedItem = inventoryService.save(item);
+    Assertions.assertNull(savedItem);
+    }
+
+
 
 }
